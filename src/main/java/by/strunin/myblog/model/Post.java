@@ -16,10 +16,10 @@ import java.util.List;
 public class Post {
     private Long id;
     private String caption;
-    //private String imageURL; // TODO:
+    private String imageURL; // TODO:
     private String text;
     private Integer likesCount;
-    //private List<Tag> tags; TODO:
-    //private List <Comment> comments; TODO:
-    private Date creationDate;
+    private List<Tag> tags; //TODO:
+    private List <Comment> comments; //TODO:
+    private LocalDate creationDate;
 }

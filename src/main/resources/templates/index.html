@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Блог постов</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h1>Лента постов</h1>
+<button id="addPostBtn">Добавить пост</button>
+
+<!-- Форма добавления поста -->
+<div id="addPostForm" style="display: none;">
+    <form id="postForm">
+        <input type="text" id="postTitle" placeholder="Название поста">
+        <input type="file" id="postImage">
+        <textarea id="postText"></textarea>
+        <input type="text" id="postTags" placeholder="Теги">
+        <button id="savePostBtn">Сохранить</button>
+    </form>
+</div>
+
+<!-- Фильтрация по тегу -->
+<select id="tagFilter">
+    <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}"></option>
+</select>
+
+<!-- Пагинация -->
+<select id="postsPerPage">
+    <option value="10">10 постов</option>
+    <option value="20">20 постов</option>
+    <option value="50">50 постов</option>
+</select>
+
+<!-- Список постов -->
+<div id="postsList">
+    <div th:each="post : ${posts}" class="post">
+        <h2><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.caption}">Название поста</a></h2>
+
+        <!--<img th:src="${post.image}" alt="Пост изображение">-->
+        <p th:text="${post.text}">Короткий текст поста</p>
+        <!--  <p>Комментариев: <span th:text="${post.commentsCount}">0</span></p>-->
+        <p>Лайков: <span th:text="${post.likesCount}">0</span></p>
+        <!--  <p>Теги: <span th:text="${post.tags}">Теги</span></p>-->
+     </div>
+ </div>
+
+ <script th:src="@{/js/index.js}"></script>
+ </body>
+ </html>
