@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Блог постов</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Лента Постов</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Лента постов</h1>
-<button id="addPostBtn">Добавить пост</button>
+<button id="addPostBtn">Добавить Пост</button>
+<div id="postsContainer">
+    <!-- Превью постов -->
+    <div th:each="post : ${posts}" class="postPreview">
+        <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.caption}">Название поста</a>
+        <img th:src="${post.imageURL}" alt="Картинка поста">
+<!--            <p th:text="${post.text.substring(0, 100)}">Короткий текст</p>-->
+        <p th:text="${post.text}">Короткий текст</p>
+        <p>Комментариев: <span th:text="${post.comments == null? 0 : post.comments.size()}">0</span></p>
+        <p>Лайков: <span th:text="${post.likesCount  == null? 0 : post.likesCount}">0</span></p>
+        <p th:each="tag : ${post.tags}">Тег: <span th:text="${tag.name}">Тег</span></p>
+    </div>
+</div>
 
 <!-- Форма добавления поста -->
-<div id="addPostForm" style="display: none;">
+<div id="addPostForm" style="display:none;">
     <form id="postForm">
-        <input type="text" id="postTitle" placeholder="Название поста">
+        <input type="text" id="postCaption" placeholder="Название поста">
         <input type="file" id="postImage">
-        <textarea id="postText"></textarea>
-        <input type="text" id="postTags" placeholder="Теги">
-        <button id="savePostBtn">Сохранить</button>
+        <textarea id="postText" placeholder="Текст поста"></textarea>
+        <input type="text" id="postTags" placeholder="Теги через запятую">
+        <button type="submit">Добавить</button>
     </form>
 </div>
 
 <!-- Фильтрация по тегу -->
-<select id="tagFilter">
-    <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}"></option>
+<select id="filterByTag">
+    <option value="">Все</option>
+    <option th:each="tag : ${tags}" th:value="${tag.name}" th:text="${tag.name}">Тег</option>
 </select>
 
 <!-- Пагинация -->
@@ -31,19 +43,6 @@
     <option value="50">50 постов</option>
 </select>
 
-<!-- Список постов -->
-<div id="postsList">
-    <div th:each="post : ${posts}" class="post">
-        <h2><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.caption}">Название поста</a></h2>
-
-        <!--<img th:src="${post.image}" alt="Пост изображение">-->
-        <p th:text="${post.text}">Короткий текст поста</p>
-        <!--  <p>Комментариев: <span th:text="${post.commentsCount}">0</span></p>-->
-        <p>Лайков: <span th:text="${post.likesCount}">0</span></p>
-        <!--  <p>Теги: <span th:text="${post.tags}">Теги</span></p>-->
-     </div>
- </div>
-
- <script th:src="@{/js/index.js}"></script>
- </body>
- </html>
+<script th:src="@{/js/index.js}"></script>
+</body>
+</html>

@@ -24,19 +24,21 @@ public class JdbcNativePostRepository implements PostRepository {
     @Override
     public List<Post> findAll() {
         // Выполняем запрос с помощью JdbcTemplate, Преобразовываем ответ с помощью RowMapper
-        return jdbcTemplate.query(
-                "select id, caption, text, likesCount, creationDate from posts",
-                (rs, rowNum) ->
-                {
-                    Post post = new Post();
-                    post.setId( rs.getLong("id"));
-                    post.setCaption(rs.getString("caption"));
-                    post.setText( rs.getString(("text")));
-                    post.setLikesCount( rs.getInt("likesCount"));
-                    //TODO: tags and comments
-                    //post.setCreationDate(rs.getDate("creationDate").toLocalDate());
-                    return post;
-                });
+        List<Post> posts =  jdbcTemplate.query(
+                "select id, caption, text, likesCount, creationDate from posts", new PostRowMapper());
+
+        posts.stream().forEach(post -> {
+            // Fetch Tags
+            String tagsSql = "SELECT t.* FROM tags t JOIN post_tags pt ON t.id = pt.tag_id WHERE pt.post_id = ?";
+            List<Tag> tags = jdbcTemplate.query(tagsSql, new Object[]{post.getId()}, new TagRowMapper());
+            post.setTags(tags);
+
+            // Fetch Comments
+            String commentsSql = "SELECT count(*) FROM comments WHERE post_id = ?";
+            Integer commentsCount = jdbcTemplate.queryForObject(commentsSql, Integer.class, new Object[] { post.getId() });
+            post.setCommentsCount(commentsCount);
+        });
+        return posts;
     }
 
     @Override

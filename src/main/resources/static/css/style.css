@@ -1,46 +1,28 @@
-body {
-    font-family: Arial, sans-serif;
-}
-
-.post {
-    margin-bottom: 20px;
-    padding: 10px;
+.postPreview {
     border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.post img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 5px 5px 0 0;
-}
-
-.post h2 {
-    margin-top: 0;
-}
-
-.post p {
     margin-bottom: 10px;
-}
-
-#addPostForm, #editPostForm, #addCommentForm {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-#addPostBtn, #editPostBtn, #deletePostBtn, #addCommentBtn, #likePostBtn {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.postPreview img {
+    width: 100%;
+    height: auto;
 }
 
-#addPostBtn:hover, #editPostBtn:hover, #deletePostBtn:hover, #addCommentBtn:hover, #likePostBtn:hover {
-    background-color: #3e8e41;
+#addPostForm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+#addPostForm textarea {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
 }

@@ -1,51 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${post.caption}">Пост</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Пост</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <h1 th:text="${post.caption}">Название поста</h1>
-<img th:src="${post.image}" alt="Пост изображение">
+<img th:src="${post.imageURL}" alt="Картинка поста">
 <p th:utext="${post.text}">Текст поста</p>
-<p>Теги: <span th:text="${post.tags}">Теги</span></p>
+<p th:each="tag : ${post.tags}">Тег: <span th:text="${tag.name}">Тег</span></p>
 
-<!-- Кнопки управления постом -->
 <button id="editPostBtn">Редактировать</button>
 <button id="deletePostBtn">Удалить</button>
 
 <!-- Форма редактирования поста -->
 <div id="editPostForm" style="display: none;">
-    <form id="editPostFormID">
-        <input type="text" id="postTitle" th:value="${post.caption}" placeholder="Название поста">
-        <input type="file" id="postImage">
-        <textarea id="postText" th:utext="${post.text}"></textarea>
-        <input type="text" id="postTags" th:value="${post.tags}" placeholder="Теги">
-        <button id="saveEditedPostBtn">Сохранить</button>
+    <form id="editPostFormSubmit">
+        <input type="text" id="editPostCaption" th:value="${post.caption}" placeholder="Название поста">
+        <input type="file" id="editPostImage">
+        <textarea id="editPostText" th:utext="${post.text}" placeholder="Текст поста"></textarea>
+        <input type="text" id="editPostTags" th:value="${post.tags.map(tag => tag.name).join(', ')}" placeholder="Теги через запятую">
+        <button type="submit">Сохранить</button>
     </form>
 </div>
 
-<!-- Кнопка добавления комментария -->
 <button id="addCommentBtn">Добавить комментарий</button>
-
-<!-- Форма добавления комментария -->
-<div id="addCommentForm" style="display: none;">
-    <textarea id="commentText"></textarea>
-    <button id="saveCommentBtn">Сохранить</button>
-</div>
-
-<!-- Кнопка лайков -->
-<button id="likePostBtn">Лайкнуть</button>
-<p>Лайков: <span id="likesCount" th:text="${post.likesCount}">0</span></p>
-
-<!-- Список комментариев -->
-<div id="commentsList">
+<div id="commentsContainer">
+    <!-- Список комментариев -->
     <div th:each="comment : ${post.comments}" class="comment">
         <p th:text="${comment.text}">Текст комментария</p>
         <button class="editCommentBtn">Редактировать</button>
         <button class="deleteCommentBtn">Удалить</button>
     </div>
 </div>
+
+<button id="likePostBtn">Лайкнуть</button>
+<p>Лайков: <span th:text="${post.likesCount}">0</span></p>
+
+!-- Прячем postId в атрибуте data-post-id -->
+<div id="postId" th:attr="data-post-id=${post.id}"></div>
 
 <script th:src="@{/js/post.js}"></script>
 </body>

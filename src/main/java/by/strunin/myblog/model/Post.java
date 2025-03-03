@@ -19,7 +19,8 @@ public class Post {
     private String imageURL; // TODO:
     private String text;
     private Integer likesCount;
-    private List<Tag> tags; //TODO:
-    private List <Comment> comments; //TODO:
+    private List<Tag> tags;
+    private List <Comment> comments;
+    private Integer commentsCount;
     private LocalDate creationDate;
 }
