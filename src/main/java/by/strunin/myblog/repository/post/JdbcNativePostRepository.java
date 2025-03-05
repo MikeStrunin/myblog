@@ -9,8 +9,8 @@ import by.strunin.myblog.model.Tag;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class JdbcNativePostRepository implements PostRepository {
@@ -25,7 +25,7 @@ public class JdbcNativePostRepository implements PostRepository {
     public List<Post> findAll() {
         // Выполняем запрос с помощью JdbcTemplate, Преобразовываем ответ с помощью RowMapper
         List<Post> posts =  jdbcTemplate.query(
-                "select id, caption, text, likesCount, creationDate from posts", new PostRowMapper());
+                "select * from posts", new PostRowMapper());
 
         posts.stream().forEach(post -> {
             // Fetch Tags
@@ -42,10 +42,11 @@ public class JdbcNativePostRepository implements PostRepository {
     }
 
     @Override
-    public void save(Post post) {
+    public Long save(Post post) {
         // Формируем insert-запрос с параметрами
-        jdbcTemplate.update("insert into posts( caption, text, likesCount, creationDate) values(?, ?, ?, ?)",
-                post.getCaption(), post.getText(), post.getLikesCount(), new Date());
+        jdbcTemplate.update("insert into posts( id, caption, text, likesCount, creationDate, fileName) values(?, ?, ?, ?, ?, ?)",
+                post.getId()!=null? post.getId() : UUID.randomUUID().getLeastSignificantBits() ,post.getCaption(), post.getText(), post.getLikesCount(), post.getCreationDate(), post.getFileName());
+        return post.getId();
     }
 
     @Override
@@ -70,6 +71,13 @@ public class JdbcNativePostRepository implements PostRepository {
         post.setComments(comments);
 
         return post;
+    }
+
+    public void savePostTags(Long postId, List<Long> tagIds) {
+        String sql = "INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)";
+        for (Long tagId : tagIds) {
+            jdbcTemplate.update(sql, postId, tagId);
+        }
     }
 
 }

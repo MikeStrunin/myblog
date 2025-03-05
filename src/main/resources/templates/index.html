@@ -10,7 +10,7 @@
     <!-- Превью постов -->
     <div th:each="post : ${posts}" class="postPreview">
         <a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.caption}">Название поста</a>
-        <img th:src="${post.imageURL}" alt="Картинка поста">
+        <img th:src="@{${post.fileName}}" alt="Картинка поста">
 <!--            <p th:text="${post.text.substring(0, 100)}">Короткий текст</p>-->
         <p th:text="${post.text}">Короткий текст</p>
         <p>Комментариев: <span th:text="${post.comments == null? 0 : post.comments.size()}">0</span></p>
@@ -19,13 +19,15 @@
     </div>
 </div>
 
-<!-- Форма добавления поста -->
+
 <div id="addPostForm" style="display:none;">
-    <form id="postForm">
-        <input type="text" id="postCaption" placeholder="Название поста">
-        <input type="file" id="postImage">
-        <textarea id="postText" placeholder="Текст поста"></textarea>
-        <input type="text" id="postTags" placeholder="Теги через запятую">
+    <form method="POST" th:action="@{/post/addPost}" enctype="multipart/form-data">
+        <input type="text" name="caption" placeholder="Название поста">
+        <textarea name="text" placeholder="Текст"></textarea>
+        <input type="file" name="file">
+        <select name="tagIds" multiple>
+            <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}">Тег</option>
+        </select>
         <button type="submit">Добавить</button>
     </form>
 </div>

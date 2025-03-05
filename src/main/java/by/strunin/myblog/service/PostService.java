@@ -23,11 +23,15 @@ public class PostService {
         return postRepository.getById(id);
     }
 
-    public void save(Post post) {
-        postRepository.save(post);
+    public Long save(Post post) {
+       return postRepository.save(post);
     }
 
     public void deleteById(Long id) {
         postRepository.deleteById(id);
+    }
+
+    public void savePostTags(Long postId, List<Long> tagIds) {
+        postRepository.savePostTags(postId, tagIds);
     }
 }

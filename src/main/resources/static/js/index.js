@@ -2,30 +2,30 @@ document.getElementById('addPostBtn').addEventListener('click', function() {
     document.getElementById('addPostForm').style.display = 'block';
 });
 
-document.getElementById('postForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const caption = document.getElementById('postCaption').value;
-    const image = document.getElementById('postImage').files[0];
-    const text = document.getElementById('postText').value;
-    const tags = document.getElementById('postTags').value.split(',');
-
-    // AJAX-запрос на добавление поста
-    fetch('/post/addPost', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            caption: caption,
-            image: image,
-            text: text,
-            tags: tags
-        })
-    })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-});
+// document.getElementById('postForm').addEventListener('submit', function(e) {
+//     e.preventDefault();
+//     const caption = document.getElementById('postCaption').value;
+//     const image = document.getElementById('postImage').files[0];
+//     const text = document.getElementById('postText').value;
+//     const tags = document.getElementById('postTags').value.split(',');
+//
+//     // AJAX-запрос на добавление поста
+//     fetch('/post/addPost', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             caption: caption,
+//             image: image,
+//             text: text,
+//             tags: tags
+//         })
+//     })
+//         .then(response => response.json())
+//         .then(data => console.log(data))
+//         .catch(error => console.error(error));
+// });
 
 document.getElementById('filterByTag').addEventListener('change', function() {
     const tag = this.value;

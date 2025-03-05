@@ -7,8 +7,9 @@
 --    creationDate timestamp null);
 
 CREATE TABLE posts (
-                       id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                       id BIGINT PRIMARY KEY ,
                        caption VARCHAR(255),
+                       fileName VARCHAR(64),
                        text TEXT,
                        likesCount INTEGER,
                        creationDate DATE

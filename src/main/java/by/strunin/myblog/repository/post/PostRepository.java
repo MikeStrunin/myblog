@@ -6,9 +6,11 @@ import java.util.List;
 public interface PostRepository {
     List<Post> findAll();
 
-    void save(Post post);
+    Long save(Post post);
 
     void deleteById(Long id);
 
     Post getById(Long id);
+
+     void savePostTags(Long postId, List<Long> tagIds);
 }

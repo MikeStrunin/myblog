@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,7 +16,7 @@ import java.util.List;
 public class Post {
     private Long id;
     private String caption;
-    private String imageURL; // TODO:
+    private String fileName;
     private String text;
     private Integer likesCount;
     private List<Tag> tags;

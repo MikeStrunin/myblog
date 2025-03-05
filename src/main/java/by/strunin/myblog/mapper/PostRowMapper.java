@@ -15,6 +15,7 @@ public class PostRowMapper implements RowMapper<Post> {
         post.setText(rs.getString("text"));
         post.setLikesCount(rs.getInt("likesCount"));
         post.setCreationDate(rs.getObject("creationDate", LocalDate.class));
+        post.setFileName(rs.getString("fileName"));
         return post;
     }
 }
